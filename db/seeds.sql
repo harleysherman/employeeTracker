@@ -21,7 +21,7 @@ VALUES ("Data Analyst", 150000, 3),
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("James", "Smith", 1, NULL),
     ("Michael", "Johnson",1, 1),
-    ("Robert", "Brown", 1, 1),
+    ("Robert", "Brown", 1, NULL),
     ("Maria", "Garcia", 1, NULL),
     ("David", "Hernandez", 1, 1),
     ("Mariana", "Rodriguez", 1, NULL),
