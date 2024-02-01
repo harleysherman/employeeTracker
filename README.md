@@ -37,7 +37,7 @@ Here's the Heroku link where the repo lives:
 
 ## Credits
 
-I want to thank Leif for helping me understand how to the post method works and helping me better understand the delete method. I want to thank Charles for helping me setup this project on a good foundation.
+I want to thank Leif for helping me understand how to setup the index.js with questions and answers with their respective conditions in then(). I also want to thank Erica for assisting with fixing my seeds.sql to display the data instead of an error.
 
 ## License
 
