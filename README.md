@@ -37,7 +37,7 @@ Here's the Heroku link where the repo lives:
 
 ## Credits
 
-I want to thank Leif for helping me understand how to setup the index.js with questions and answers with their respective conditions in then(). I also want to thank Erica for assisting with fixing my seeds.sql to display the data instead of an error.
+I want to thank Leif for helping me understand how to setup the index.js with questions and answers with their respective conditions in then(). I also want to thank Erica for assisting with fixing my seeds.sql to display the data instead of an error and for helping to read through the code to find the missing comma in schema.sql after the first foreign key in the employee table.
 
 ## License
 
