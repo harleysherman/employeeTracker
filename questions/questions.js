@@ -1,32 +1,48 @@
-//Import Inquirer and FS packages
-const inquirer = require('inquirer');
-const fs = require('fs');
-
-//asks user questions about what text, font color, shape and shape color they want for their logo
-function firstQuestion() {
-    inquirer
-    .prompt([
+const questions = [
       {
         type: 'list',
-        message: 'What would you like to do?',
-        name: 'actionChosen',
-        choices: ['View all departments', 'View all roles', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role'],
+        message: 'What is the name of the department?',
+        name: 'department',
+        choices: ['Design', 'Management', 'Testing', 'Engineering'],
       },
-    ])
-}
+      {
+        type: 'list',
+        message: 'What is the name of the role?',
+        name: 'role',
+        choices: ['Data Analyst', 'Product Manager', 'Cloud Architect', 'Database Administrator', 'Data Scientist', 'Data Architect', 'Software Engineer', 'Full Stack Web Developer', 'DevOps Engineer', 'UI Designer'],
+      },
+      {
+        type: 'list',
+        message: 'What is the salary of the role?',
+        name: 'salary',
+        choices: ['75000', '90000', '100000', '150000'],
+      },
+      {
+        type: 'list',
+        message: 'Which department does the role belong to?',
+        name: 'departmentRole',
+        choices: ['Design', 'Management', 'Testing', 'Engineering'],
+      },
+      {
+        type: 'input',
+        message: `What is the employee's first name?`,
+        name: 'firstName',
+      },
+      {
+        type: 'input',
+        message: `What is the employee's last name?`,
+        name: 'lastName',
+      },
+      {
+        type: 'input',
+        message: `Who is the employee's manager?`,
+        name: 'manager',
+      },
+      {
+        type: 'list',
+        message: `Which employee's role do you want to update?`,
+        choices: ['James Smith', 'Michael Johnson','Robert Brown','Maria Garcia', 'David Hernandez','Mariana Rodriguez','Mary Wilson', 'Isambard Brunel', 'Ewart Gladstone','Emmeline Pankhurst'],
+      },
+    ];
 
-function secondQuestion() {
-    inquirer
-    .prompt([
-        {
-            type: 'list',
-            message: 'Which employee do you want to update?',
-            name: 'employeeUpdate',
-            choices: [''],
-        },
-    ])
-}
-
-//Call function firstQuestion() and secondQuestion() once the first is answered
-firstQuestion();
-//secondQuestion();
+module.exports = questions;

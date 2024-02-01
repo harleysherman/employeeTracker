@@ -5,30 +5,30 @@ CREATE DATABASE employee_db;
 USE employee_db;
 
 CREATE TABLE department (
-  id INT NOT NULL PRIMARY KEY,
-  departmentName VARCHAR(30) NOT NULL
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  department_name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE role (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
-  salary DECIMAL(8, 2),
-  department_id INT AUTO_INCREMENT,
+  salary DECIMAL NOT NULL,/** (8,2)**/
+  department_id INT,
   FOREIGN KEY (department_id)
   REFERENCES department(id)
   ON DELETE SET NULL 
 );
 
 CREATE TABLE employee (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    role_id INT AUTO_INCREMENT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
+    role_id INT,
     FOREIGN KEY (role_id)
-    REFERENCES employee(id)
+    REFERENCES role(id)
     ON DELETE SET NULL
-    manager_id INT AUTO_INCREMENT,
-    FOREIGN KEY (manager_id)
-    REFERENCES employee(id)
-    ON DELETE SET NULL
+    -- manager_id INT, --
+    -- FOREIGN KEY (manager_id) --
+    -- REFERENCES employee(id) --
+    -- ON DELETE SET NULL --
 );
