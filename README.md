@@ -37,7 +37,7 @@ Here's the video link where the repo lives:
 
 ## Credits
 
-I want to thank Leif for helping me understand how to setup the index.js with questions and answers with their respective conditions in then(). Leif was also huge in helping me understand how to create adding a department. I also want to thank Erica for assisting with fixing my seeds.sql to display the data instead of an error and for helping to read through the code to find the missing comma in schema.sql after the first foreign key in the employee table. I also wanted to thank Charles for helping me with adding an employee.
+I want to thank Leif for helping me understand how to setup the index.js with questions and answers with their respective conditions in then(). Leif was also huge in helping me understand how to create adding a department, adding an employee, and updating an employee.. I also want to thank Erica for assisting with fixing my seeds.sql to display the data instead of an error and for helping to read through the code to find the missing comma in schema.sql after the first foreign key in the employee table. I also wanted to thank Charles for helping me with adding an employee.
 
 ## License
 
@@ -54,7 +54,13 @@ The license used in this project is MIT License.
 ## Features
 
 The features of this project are listed below:
-- 
+- View all departments
+- View all roles
+- View all employees
+- Add a department
+- Add a role
+- Add an employee
+- Update an employee role
 
 ## How to Contribute
 

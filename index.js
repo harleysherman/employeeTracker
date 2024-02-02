@@ -161,8 +161,6 @@ function promptMenu() {
         );
       } else if (response.actionChosen === "Add an employee") {
         //TODO add an employee -- add role id too, need only role id
-        //console.log("We're in the add the employee");
-
         // then when you want to the roles you can use a select to get the roles and you also need department you can join with department
         db.query("SELECT * FROM employee",
           (err, employeeResult) => {
@@ -250,14 +248,69 @@ function promptMenu() {
         );
       } else if (response.actionChosen === "Update an employee role") {
         //TODO update an employee role
-        db.query("UPDATE employee SET (role_id = ?) WHERE id = (?)", (err, result) => {
+        db.query("SELECT employee.first_name, employee.last_name FROM employee", (err, employeeResult) => {
+            if (err) {
+                console.log(err);
+            } else {
+                //display employees
+                console.table(employeeResult);
 
-        })
+                const employeeParsed = employeeResult.map((employee) => {
+                    return {
+                      name: `${employee.first_name} ${employee.last_name}`,
+                      value: employee.id,
+                    };
+                  });
+                db.query("SELECT * FROM role", (err, roleResult) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        const roleParsed = roleResult.map((role) => {
+                            return {
+                              name: role.title,
+                              value: role.id,
+                            };
+                          });
+        
+                        //display questions
+                        inquirer
+                        .prompt ([
+                            {
+                                type: "list",
+                                message: "Which employee do you need to update?",
+                                name: "employeeAdded",
+                                choices: employeeParsed,
+                              },
+                              {
+                                type: "list",
+                                message: "What is the employee's new role?",
+                                name: "roleAdded",
+                                choices: roleParsed,
+                              },
+                        ])
+                        .then ((response) => {
+                            db.query("UPDATE employee SET role_id = ? WHERE id = ?", [
+                                response.employeeAdded,
+                                response.roleAdded,
+                            ], (err, result) => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log("Employee has been updated");
+                                    promptMenu();
+                                }
+                            });
+                        });
+                    }
+                })
+            }
+        });
+      } else {
+        //TODO displays in terminal if all else fails
+        console.log("Not sure how you ended up here buddy. Try again.");
+        promptMenu();
       }
     });
 }
-
-
-
 
 promptMenu();
