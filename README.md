@@ -33,7 +33,7 @@ Here's the GitHub link where the repo lives:
 [employeeTracker](https://github.com/harleysherman/employeeTracker)
 
 Here's the video link where the repo lives:
-[videoLink](https://github.com/harleysherman/noteTaker)
+[videoLink](https://drive.google.com/file/d/1FX9_ctLQVc7LxgwdFC8XcpXLMlmiaVue/view)
 
 ## Credits
 
