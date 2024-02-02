@@ -106,7 +106,7 @@ function promptMenu() {
             if (err) {
               console.log(err);
             } else {
-              console.log(result);
+              //console.log(result);
               const roleParsed = result.map((role) => {
                 return {
                   name: role.department_name,
@@ -162,7 +162,7 @@ function promptMenu() {
         //TODO add an employee -- add role id too, need only role id
         //console.log("We're in the add the employee");
         db.query(
-          "SELECT title, department_id FROM role id FULL OUTER JOIN employee ON employee.role_id = role.id WHERE employee.id IS NULL OR employee.manager_id IS NULL",
+          "SELECT title, department_id FROM role FULL JOIN employee ON employee.role_id = role.id WHERE employee.id IS NULL OR employee.manager_id IS NULL",
           (err, result) => {
             //SELECT employee.role_id, employee.manager_id FROM employee
             //SELECT <select_list>
