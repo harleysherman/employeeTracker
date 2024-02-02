@@ -71,7 +71,7 @@ function promptMenu() {
       } else if (response.actionChosen === "Add a department") {
         //TODO add a department
         //console.log(response);
-        //console.log("we're here to add a department")
+        //console.log("we're here to add a department");
         inquirer
           .prompt({
             type: "input",
@@ -161,44 +161,69 @@ function promptMenu() {
       } else if (response.actionChosen === "Add an employee") {
         //TODO add an employee -- add role id too, need only role id
         //console.log("We're in the add the employee");
-        db.query("SELECT title, department_id FROM role", (err, result) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.table("result" + result);
-            const roleParsed = result.map((role) => {
-              return {
-                name: role.title,
-                value: role.department_id,
-              };
-            });
-            console.log(roleParsed);
-            inquirer.prompt(
-              {
-                type: "input",
-                message: "What is the employee's first name you want to add?",
-                name: "firstNameAdded",
-              },
-              {
-                type: "input",
-                message: "What is the employee's last name you want to add?",
-                name: "lastNameAdded",
-              },
-              {
-                type: "list",
-                message: "What is the role you want to add?",
-                name: "roleAdded",
-                choices: roleParsed,
-              },
-            ) 
-            .then((data) => {
-                
-                promptMenu();
-            }) 
-          }
-        });
+        db.query(
+          "SELECT title, department_id FROM role id FULL OUTER JOIN employee ON employee.role_id = role.id WHERE employee.id IS NULL OR employee.manager_id IS NULL",
+          (err, result) => {
+            //SELECT employee.role_id, employee.manager_id FROM employee
+            //SELECT <select_list>
+            //FROM TableA A
+            //FULL OUTER JOIN TableB B
+            //ON A.Key = B.Key WHERE A.Key IS NULL
+            //OR B.Key IS NULL
+            //SELECT employee.title, employee.department_id FROM role FULL OUTER JOIN employee ON employee.manager_id = role.id WHERE employee.manager_id IS NULL or employee.id IS NULL
+            if (err) {
+              console.log(err);
+            } else {
+              //console.table("result" + result);
+              const roleParsed = result.map((role) => {
+                return {
+                  name: role.title,
+                  value: role.department_id,
+                };
+              });
+              //console.log(roleParsed);
+              inquirer
+                .prompt([
+                  {
+                    type: "input",
+                    message:
+                      "What is the employee's first name you want to add?",
+                    name: "firstNameAdded",
+                  },
+                  {
+                    type: "input",
+                    message:
+                      "What is the employee's last name you want to add?",
+                    name: "lastNameAdded",
+                  },
+                  {
+                    type: "list",
+                    message: "What is the role you want to add?",
+                    name: "roleAdded",
+                    choices: roleParsed,
+                  },
+                  {
+                    type: "input",
+                    message: "Who is the manager you want to add?",
+                    name: "managerAdded",
+                  },
+                ])
+                .then((data) => {
+                  // db.query('SELECT employee.role_id, employee.manager_id FROM employee', (err, result) => {
+                  //     if (err) {
+                  //         console.log(err);
+                  //     } else {
+                  //         inquirer
+                  //         .prompt([
 
-        // db.query('employee & manager_id',);
+                  //         ])
+                  //     }
+                  console.log("Employee has been added to database");
+                  promptMenu();
+                });
+            }
+          }
+        );
       }
     });
 }
