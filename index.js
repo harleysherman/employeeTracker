@@ -2,6 +2,7 @@ const questions = require("./questions/questions");
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
 const cTable = require("console.table");
+const { log } = require("util");
 
 // Connect to database
 const db = mysql.createConnection(
@@ -162,119 +163,101 @@ function promptMenu() {
         //TODO add an employee -- add role id too, need only role id
         //console.log("We're in the add the employee");
 
-            // then when you want to the roles you can use a select to get the roles and you also need department you can join with department
-            db.query("SELECT first_name, last_name, title FROM employee JOIn role on employee.id = role-id WHERE manager_id IS NULL", (err, results) => {
-                if (err) {
+        // then when you want to the roles you can use a select to get the roles and you also need department you can join with department
+        db.query("SELECT * FROM employee",
+          (err, employeeResult) => {
+            if (err) {
+              console.log(err);
+            } else {
+                console.table(employeeResult);
+
+              db.query("SELECT role.title, role.id FROM role",
+                (err, roleResult) => {
+                  if (err) {
                     console.log(err);
-                } else {
+                  } else {
+                    console.table(roleResult);
+
+                    const roleParsed = roleResult.map((role) => {
+                      return {
+                        name: role.title,
+                        value: role.department_id,
+                      };
+                    });
+                    const managerParsed = employeeResult.map((employee) => {
+                      return {
+                        name: `${employee.first_name} ${employee.last_name}`,
+                        value: employee.id,
+                      };
+                    });
+                    //add None to manager list
+                    managerParsed.push({name: 'None', value: null});
+
                     // you can prompt first and last name
                     inquirer
-                    .prompt([
+                      .prompt([
                         {
-                            type: "input",
-                            message:
+                          type: "input",
+                          message:
                             "What is the employee's first name you want to add?",
-                            name: "firstNameAdded",
+                          name: "firstNameAdded",
                         },
                         {
-                            type: "input",
-                            message:
+                          type: "input",
+                          message:
                             "What is the employee's last name you want to add?",
-                            name: "lastNameAdded",
+                          name: "lastNameAdded",
                         },
-                    ])
-                    .then((response) => {
-                            
-                    })
+                        {
+                          type: "list",
+                          message: "What is the role you want to add?",
+                          name: "roleAdded",
+                          choices: roleParsed,
+                        },
+                        {
+                          type: "list",
+                          message: "Who is the employee's manager?",
+                          name: "managerAdded",
+                          choices: managerParsed,
+                        },
+                      ])
+                      .then((response) => {
+                        db.query(
+                          "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
+                          [
+                            response.firstNameAdded,
+                            response.lastNameAdded,
+                            response.roleAdded,
+                            response.managerAdded,
+                          ],
+                          (err, result) => {
+                            if (err) {
+                              console.log(err);
+                            } else {
+                              console.log(
+                                "Employee has been added to database"
+                              );
+                              promptMenu();
+                            }
+                          }
+                        );
+                      });
+                  }
                 }
-        })
-
-        // then you do something similar with managers
-        // and once you have all this info stored, you can insert into the employee table
-        // another approach is to use your questions list and then match the values with the items in database when you are adding. for example. you would check from a role that matches that selection then get the id needed when inserting
-        db.query(
-           "SELECT title FROM role FULL JOIN employees ON role.id = employee.role_id WHERE employees.id IS NULL OR employee.manager_id IS NULL",
-          (err, result) => {
-            if (err) {
-                console.log(err);
-              } else {
-                //console.table("result" + result);
-                const roleParsed = result.map((role) => {
-                  return {
-                    name: role.title,
-                    value: role.department_id,
-                  };
-                });
-                const managerParsed = result.map((role) => {
-                    return {
-                    name: employee.title,
-                    value: employee.id,
-                    };
-                });
-            }
-        });
-            //"SELECT title FROM role FULL JOIN employee ON role.id = employee.role_id WHERE employee.id IS NULL OR employee.manager_id NOT NULL",
-            //SELECT employee.role_id, employee.manager_id FROM employee
-            //SELECT <select_list>
-            //FROM TableA A
-            //FULL OUTER JOIN TableB B
-            //ON A.Key = B.Key WHERE A.Key IS NULL
-            //OR B.Key IS NULL
-            //SELECT employee.title, employee.department_id FROM role FULL OUTER JOIN employee ON employee.manager_id = role.id WHERE employee.manager_id IS NULL or employee.id IS NULL
-            // if (err) {
-            //   console.log(err);
-            // } else {
-            //   //console.table("result" + result);
-            //   const roleParsed = result.map((role) => {
-            //     return {
-            //       name: role.title,
-            //       value: role.department_id,
-            //     };
-            //   });
-            //   const managerList = result.map((employee) => {
-            //     return {
-            //         if (employee.manager_id === NULL) {
-            //             name: employee.first_name, employee.last_name
-            //         }
-
-            //     }
-            //   })
-              //console.log(roleParsed);
-              inquirer
-                .prompt([
-                  {
-                    type: "list",
-                    message: "What is the role you want to add?",
-                    name: "roleAdded",
-                    choices: roleParsed,
-                  },
-                  {
-                    type: "list",
-                    message: "Who is the employee's manager?",
-                    name: "managerAdded",
-                    choices: ["None", managerParsed],
-                  },
-                ])
-                .then((data) => {
-                  // db.query('SELECT employee.role_id, employee.manager_id FROM employee', (err, result) => {
-                  //     if (err) {
-                  //         console.log(err);
-                  //     } else {
-                  //         inquirer
-                  //         .prompt([
-
-                  //         ])
-                  //     }
-                  console.log("Employee has been added to database");
-                  promptMenu();
-                });
+              );
             }
           }
         );
+      } else if (response.actionChosen === "Update an employee role") {
+        //TODO update an employee role
+        db.query("UPDATE employee SET (role_id = ?) WHERE id = (?)", (err, result) => {
+
+        })
       }
     });
 }
 
-//TODO update an employee role
+
+
 
 promptMenu();
