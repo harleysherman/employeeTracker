@@ -2,10 +2,10 @@
 
 ## Description
 
-- The motivation is to learn to create a note taking app using Express get and post methods.
-- The project was built to create a note taking app.
-- The problem this project solves is greater understanding of the use cases of Express.
-- I learned how to work note taker app to communicate the back end with the front end of the project.
+- The motivation is to learn to create a mysql database from scratch and use inquirer.
+- The project was built to manage the departments, roles, and employees of the company.
+- The problem this project solves is to better understand mysql databases and how to use inquirer to make the database dynamic.
+- I learned how to work with inquirer without express and how to better use mysql database.
 
 ## Table of Contents (Optional)
 
@@ -17,7 +17,7 @@
 ## Installation
 
 1. Download repo from GitHub repository link:
-https://github.com/harleysherman/noteTaker. 
+https://github.com/harleysherman/employeeTracker. 
 
 2. Install repo in terminal
 
@@ -30,14 +30,14 @@ https://github.com/harleysherman/noteTaker.
 ## Usage
 
 Here's the GitHub link where the repo lives:
-[noteTaker](https://github.com/harleysherman/noteTaker)
+[employeeTracker](https://github.com/harleysherman/employeeTracker)
 
-Here's the Heroku link where the repo lives:
-[heroku](https://github.com/harleysherman/noteTaker)
+Here's the video link where the repo lives:
+[videoLink](https://github.com/harleysherman/noteTaker)
 
 ## Credits
 
-I want to thank Leif for helping me understand how to setup the index.js with questions and answers with their respective conditions in then(). I also want to thank Erica for assisting with fixing my seeds.sql to display the data instead of an error and for helping to read through the code to find the missing comma in schema.sql after the first foreign key in the employee table.
+I want to thank Leif for helping me understand how to setup the index.js with questions and answers with their respective conditions in then(). Leif was also huge in helping me understand how to create adding a department. I also want to thank Erica for assisting with fixing my seeds.sql to display the data instead of an error and for helping to read through the code to find the missing comma in schema.sql after the first foreign key in the employee table. I also wanted to thank Charles for helping me with adding an employee.
 
 ## License
 
@@ -47,9 +47,9 @@ The license used in this project is MIT License.
 
 ## Badges
 
-![express](https://img.shields.io/badge/express-javascript-blue)
-![JSON](https://img.shields.io/badge/JSON-package-green)
-![fs](https://img.shields.io/badge/fs-package-green)
+![mysql2](https://img.shields.io/badge/mysql2-package-green)
+![inquirer](https://img.shields.io/badge/inquirer-package-green)
+![console.table](https://img.shields.io/badge/console-table-blue)
 
 ## Features
 
@@ -64,4 +64,4 @@ For any violations of this project, contact me hello@harleysherman.com.
 
 ## Tests
 
-1. Press on the trash can on any of the tasks to delete them.
+There are no tests at this time.

@@ -161,9 +161,59 @@ function promptMenu() {
       } else if (response.actionChosen === "Add an employee") {
         //TODO add an employee -- add role id too, need only role id
         //console.log("We're in the add the employee");
+
+            // then when you want to the roles you can use a select to get the roles and you also need department you can join with department
+            db.query("SELECT first_name, last_name, title FROM employee JOIn role on employee.id = role-id WHERE manager_id IS NULL", (err, results) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    // you can prompt first and last name
+                    inquirer
+                    .prompt([
+                        {
+                            type: "input",
+                            message:
+                            "What is the employee's first name you want to add?",
+                            name: "firstNameAdded",
+                        },
+                        {
+                            type: "input",
+                            message:
+                            "What is the employee's last name you want to add?",
+                            name: "lastNameAdded",
+                        },
+                    ])
+                    .then((response) => {
+                            
+                    })
+                }
+        })
+
+        // then you do something similar with managers
+        // and once you have all this info stored, you can insert into the employee table
+        // another approach is to use your questions list and then match the values with the items in database when you are adding. for example. you would check from a role that matches that selection then get the id needed when inserting
         db.query(
-          "SELECT title, department_id FROM role FULL JOIN employee ON employee.role_id = role.id WHERE employee.id IS NULL OR employee.manager_id IS NULL",
+           "SELECT title FROM role FULL JOIN employees ON role.id = employee.role_id WHERE employees.id IS NULL OR employee.manager_id IS NULL",
           (err, result) => {
+            if (err) {
+                console.log(err);
+              } else {
+                //console.table("result" + result);
+                const roleParsed = result.map((role) => {
+                  return {
+                    name: role.title,
+                    value: role.department_id,
+                  };
+                });
+                const managerParsed = result.map((role) => {
+                    return {
+                    name: employee.title,
+                    value: employee.id,
+                    };
+                });
+            }
+        });
+            //"SELECT title FROM role FULL JOIN employee ON role.id = employee.role_id WHERE employee.id IS NULL OR employee.manager_id NOT NULL",
             //SELECT employee.role_id, employee.manager_id FROM employee
             //SELECT <select_list>
             //FROM TableA A
@@ -171,31 +221,27 @@ function promptMenu() {
             //ON A.Key = B.Key WHERE A.Key IS NULL
             //OR B.Key IS NULL
             //SELECT employee.title, employee.department_id FROM role FULL OUTER JOIN employee ON employee.manager_id = role.id WHERE employee.manager_id IS NULL or employee.id IS NULL
-            if (err) {
-              console.log(err);
-            } else {
-              //console.table("result" + result);
-              const roleParsed = result.map((role) => {
-                return {
-                  name: role.title,
-                  value: role.department_id,
-                };
-              });
+            // if (err) {
+            //   console.log(err);
+            // } else {
+            //   //console.table("result" + result);
+            //   const roleParsed = result.map((role) => {
+            //     return {
+            //       name: role.title,
+            //       value: role.department_id,
+            //     };
+            //   });
+            //   const managerList = result.map((employee) => {
+            //     return {
+            //         if (employee.manager_id === NULL) {
+            //             name: employee.first_name, employee.last_name
+            //         }
+
+            //     }
+            //   })
               //console.log(roleParsed);
               inquirer
                 .prompt([
-                  {
-                    type: "input",
-                    message:
-                      "What is the employee's first name you want to add?",
-                    name: "firstNameAdded",
-                  },
-                  {
-                    type: "input",
-                    message:
-                      "What is the employee's last name you want to add?",
-                    name: "lastNameAdded",
-                  },
                   {
                     type: "list",
                     message: "What is the role you want to add?",
@@ -203,9 +249,10 @@ function promptMenu() {
                     choices: roleParsed,
                   },
                   {
-                    type: "input",
-                    message: "Who is the manager you want to add?",
+                    type: "list",
+                    message: "Who is the employee's manager?",
                     name: "managerAdded",
+                    choices: ["None", managerParsed],
                   },
                 ])
                 .then((data) => {
